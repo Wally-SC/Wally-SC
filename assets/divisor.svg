@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="24" viewBox="0 0 900 24">
+<defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00e57a" stop-opacity="0"/><stop offset=".5" stop-color="#00e57a"/><stop offset="1" stop-color="#00e57a" stop-opacity="0"/></linearGradient></defs>
+<style>.p { animation: p 4s ease-in-out infinite; } @keyframes p { 0% { transform: translateX(-300px); } 100% { transform: translateX(900px); } } @media (prefers-reduced-motion: reduce) { .p { animation: none; } }</style>
+<rect x="0" y="11" width="900" height="2" fill="#1e3a8a" opacity=".5"/>
+<rect class="p" x="0" y="10" width="300" height="4" rx="2" fill="url(#g)"/>
+</svg>

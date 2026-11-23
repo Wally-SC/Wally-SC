@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walyson Santos · Engenharia de Software e Dados</title>
+<meta name="description" content="Portfólio de Walyson Santos Costa: engenharia de software, engenharia de dados, Python, AWS e SQL.">
+<meta name="theme-color" content="#050807">
+<meta property="og:title" content="Walyson Santos · Engenharia de Software e Dados">
+<meta property="og:description" content="Projetos de engenharia de software e dados em Python: bancos de dados, APIs, pipelines e mais.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050807'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='monospace' font-weight='800' font-size='26' fill='%2300e57a'%3E%26lt;/%26gt;%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --preto: #050807;
+  --preto2: #0a120f;
+  --superficie: rgba(12, 24, 19, .72);
+  --borda: rgba(0, 229, 122, .14);
+  --verde: #00e57a;
+  --verde2: #10b981;
+  --verde-claro: #6ee7b7;
+  --marinho: #0b1f3a;
+  --marinho2: #1e3a8a;
+  --azul: #60a5fa;
+  --texto: #e6fff3;
+  --apagado: #8fa89c;
+  --raio: 18px;
+  --mono: 'JetBrains Mono', Consolas, monospace;
+  --sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: var(--sans);
+  background: var(--preto);
+  color: var(--texto);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--verde); color: var(--preto); }
+a { color: inherit; text-decoration: none; }
+
+/* ---------- fundo vivo ---------- */
+.fundo { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.fundo::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 229, 122, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 122, .05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%);
+}
+.bolha { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; animation: flutua 18s ease-in-out infinite; }
+.bolha.b1 { width: 520px; height: 520px; background: #00e57a40; top: -160px; right: -120px; }
+.bolha.b2 { width: 600px; height: 600px; background: #1e3a8a70; bottom: -220px; left: -200px; animation-delay: -6s; }
+.bolha.b3 { width: 380px; height: 380px; background: #10b98130; top: 45%; left: 55%; animation-delay: -12s; }
+@keyframes flutua { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-60px, 40px) scale(1.08); } 66% { transform: translate(40px, -30px) scale(.95); } }
+.luz {
+  position: fixed; width: 420px; height: 420px; border-radius: 50%; z-index: -1; pointer-events: none;
+  background: radial-gradient(circle, rgba(0, 229, 122, .10), transparent 65%);
+  transform: translate(-50%, -50%); transition: opacity .4s; left: -999px; top: -999px;
+}
+
+/* ---------- navegação ---------- */
+.barra-progresso { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg, var(--verde), var(--azul)); box-shadow: 0 0 12px var(--verde); }
+nav {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 50;
+  display: flex; align-items: center; gap: 6px; padding: 7px;
+  width: min(760px, calc(100% - 32px));
+  background: rgba(5, 8, 7, .62); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--borda); border-radius: 999px;
+  transition: box-shadow .4s, border-color .4s;
+}
+nav.rolou { box-shadow: 0 10px 40px rgba(0, 0, 0, .5); border-color: rgba(0, 229, 122, .28); }
+.logo { font-family: var(--mono); font-weight: 700; color: var(--verde); padding: 6px 14px; white-space: nowrap; }
+.logo span { color: var(--azul); }
+.links { display: flex; gap: 2px; margin-left: auto; }
+.links a {
+  font-size: .88rem; font-weight: 500; color: var(--apagado); padding: 8px 14px; border-radius: 999px;
+  transition: color .25s, background .25s;
+}
+.links a:hover, .links a.ativo { color: var(--texto); background: rgba(0, 229, 122, .10); }
+.links a.ativo { color: var(--verde); }
+
+/* ---------- layout ---------- */
+main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+section { padding: 110px 0 40px; }
+.rotulo { font-family: var(--mono); font-size: .85rem; color: var(--verde); letter-spacing: .08em; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.rotulo::before { content: ""; width: 28px; height: 2px; background: linear-gradient(90deg, var(--verde), var(--azul)); border-radius: 2px; }
+h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.15; margin-bottom: 14px; }
+h2 em { font-style: normal; background: linear-gradient(90deg, var(--verde), var(--verde-claro) 50%, var(--azul)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lead { color: var(--apagado); max-width: 620px; font-size: 1.05rem; }
+
+/* ---------- hero ---------- */
+.hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: 120px; }
+.status {
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  font-size: .85rem; color: var(--verde-claro); padding: 7px 14px 7px 12px; border-radius: 999px;
+  background: rgba(0, 229, 122, .07); border: 1px solid var(--borda); margin-bottom: 28px;
+}
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--verde); box-shadow: 0 0 0 0 rgba(0, 229, 122, .7); animation: pulso 2s infinite; }
+@keyframes pulso { 70% { box-shadow: 0 0 0 10px rgba(0, 229, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 229, 122, 0); } }
+.hero h1 { font-size: clamp(2.8rem, 8.5vw, 6rem); font-weight: 800; letter-spacing: -.045em; line-height: 1; }
+.hero h1 .grad { background: linear-gradient(100deg, var(--verde) 10%, var(--verde-claro) 45%, var(--azul) 90%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: brilho 6s linear infinite; }
+@keyframes brilho { to { background-position: 200% center; } }
+.digitando { font-family: var(--mono); font-size: clamp(1.05rem, 2.6vw, 1.55rem); color: var(--verde); margin: 26px 0 18px; min-height: 2.2em; }
+.digitando::before { content: "> "; color: var(--azul); }
+.digitando .cursor { display: inline-block; width: .6em; height: 1.1em; background: var(--verde); vertical-align: -3px; margin-left: 3px; animation: pisca 1s steps(1) infinite; }
+@keyframes pisca { 50% { opacity: 0; } }
+.hero .lead { font-size: 1.12rem; }
+.acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.botao {
+  position: relative; display: inline-flex; align-items: center; gap: 10px; isolation: isolate; overflow: hidden;
+  font-weight: 600; font-size: .95rem; padding: 14px 24px; border-radius: 14px; cursor: pointer; border: 1px solid var(--borda);
+  background: var(--superficie); color: var(--texto);
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s, color .35s;
+}
+.botao svg { width: 18px; height: 18px; transition: transform .35s var(--ease); }
+.botao::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .18), transparent 70%); transform: translateX(-120%); transition: transform .7s var(--ease); }
+.botao:hover { transform: translateY(-3px); border-color: rgba(0, 229, 122, .5); box-shadow: 0 12px 30px -10px rgba(0, 229, 122, .45); }
+.botao:hover::after { transform: translateX(120%); }
+.botao:hover svg { transform: translateX(3px); }
+.botao.primario { background: linear-gradient(135deg, var(--verde), var(--verde2)); color: var(--preto); border-color: transparent; }
+.botao.primario:hover { box-shadow: 0 14px 36px -8px rgba(0, 229, 122, .7); }
+.botao.marinho { background: linear-gradient(135deg, var(--marinho), #102a52); border-color: rgba(96, 165, 250, .3); }
+.botao.marinho:hover { border-color: var(--azul); box-shadow: 0 12px 30px -10px rgba(96, 165, 250, .5); }
+.rolar { margin-top: 70px; display: flex; align-items: center; gap: 12px; color: var(--apagado); font-size: .85rem; width: fit-content; }
+.rolar .mouse { width: 22px; height: 34px; border: 2px solid var(--apagado); border-radius: 12px; position: relative; }
+.rolar .mouse::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: var(--verde); animation: roda 1.8s infinite; }
+@keyframes roda { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- sobre ---------- */
+.sobre-grade { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; margin-top: 34px; }
+.painel {
+  background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); padding: 30px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.painel p { color: #c4dcd0; margin-bottom: 14px; }
+.painel p:last-child { margin-bottom: 0; }
+.painel strong { color: var(--verde-claro); font-weight: 600; }
+.numeros { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.numero { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: linear-gradient(160deg, rgba(11, 31, 58, .85), rgba(5, 8, 7, .8)); border: 1px solid rgba(96, 165, 250, .18); border-radius: var(--raio); padding: 22px; transition: transform .4s var(--ease), border-color .4s; }
+.numero:hover { transform: translateY(-4px); border-color: rgba(0, 229, 122, .4); }
+.numero b { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -.03em; color: var(--verde); line-height: 1.1; }
+.numero span { font-size: .86rem; color: var(--apagado); }
+.linha-tempo { margin-top: 28px; display: grid; gap: 14px; }
+.marco { display: grid; grid-template-columns: 14px 1fr; gap: 18px; }
+.marco .ponto { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--verde); margin-top: 6px; box-shadow: 0 0 14px rgba(0, 229, 122, .5); }
+.marco h3 { font-size: 1rem; font-weight: 700; }
+.marco small { font-family: var(--mono); color: var(--azul); font-size: .78rem; }
+.marco p { color: var(--apagado); font-size: .93rem; }
+
+/* ---------- stack ---------- */
+.stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 34px; }
+.stack .painel { padding: 24px; transition: transform .4s var(--ease), border-color .4s; }
+.stack .painel:hover { transform: translateY(-4px); border-color: rgba(0, 229, 122, .35); }
+.stack h3 { font-size: .95rem; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.stack h3 i { font-style: normal; font-family: var(--mono); color: var(--verde); font-size: .8rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: .8rem; font-weight: 500; padding: 5px 11px; border-radius: 999px; background: rgba(11, 31, 58, .9); border: 1px solid rgba(96, 165, 250, .25); color: #bfdbfe; transition: background .25s, color .25s, border-color .25s; }
+.chip:hover { background: rgba(0, 229, 122, .12); color: var(--verde); border-color: rgba(0, 229, 122, .4); }
+
+/* ---------- projetos ---------- */
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0 26px; }
+.filtro {
+  font: 500 .88rem var(--sans); color: var(--apagado); background: transparent; border: 1px solid var(--borda);
+  padding: 9px 16px; border-radius: 999px; cursor: pointer; transition: all .3s var(--ease);
+}
+.filtro:hover { color: var(--texto); border-color: rgba(0, 229, 122, .4); }
+.filtro.ativo { background: var(--verde); color: var(--preto); border-color: var(--verde); font-weight: 600; }
+.filtro sup { font-family: var(--mono); font-size: .7rem; margin-left: 4px; opacity: .7; }
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.projeto {
+  --mx: 50%; --my: 50%;
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); padding: 26px;
+  transition: transform .45s var(--ease), border-color .45s, box-shadow .45s, opacity .45s;
+}
+.projeto::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(380px circle at var(--mx) var(--my), rgba(0, 229, 122, .13), transparent 45%);
+}
+.projeto:hover { transform: translateY(-6px); border-color: rgba(0, 229, 122, .42); box-shadow: 0 24px 50px -24px rgba(0, 229, 122, .45); }
+.projeto:hover::before { opacity: 1; }
+.projeto.destaque { background: linear-gradient(160deg, rgba(11, 31, 58, .75), rgba(10, 18, 15, .85)); border-color: rgba(96, 165, 250, .22); }
+.projeto.escondido { display: none; }
+.projeto.surgindo { animation: surge .5s var(--ease) both; }
+@keyframes surge { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+.projeto header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.icone { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: rgba(0, 229, 122, .1); border: 1px solid var(--borda); color: var(--verde); }
+.icone svg { width: 22px; height: 22px; }
+.selo { font-family: var(--mono); font-size: .72rem; font-weight: 700; color: var(--verde); padding: 4px 10px; border-radius: 999px; background: rgba(6, 78, 59, .6); border: 1px solid rgba(16, 185, 129, .45); white-space: nowrap; }
+.projeto h3 { font-family: var(--mono); font-size: 1.08rem; color: var(--texto); margin-bottom: 8px; word-break: break-word; }
+.projeto p { color: var(--apagado); font-size: .93rem; flex: 1; }
+.projeto .chips { margin: 18px 0 20px; }
+.projeto .botao { padding: 10px 16px; font-size: .86rem; border-radius: 11px; width: fit-content; }
+.projeto a.cobre { position: absolute; inset: 0; z-index: 1; }
+.projeto .botao { position: relative; z-index: 2; }
+
+/* ---------- contato ---------- */
+.contato { text-align: center; padding-bottom: 90px; }
+.contato .painel {
+  padding: clamp(36px, 7vw, 70px) 24px; position: relative; overflow: hidden;
+  background: linear-gradient(150deg, rgba(11, 31, 58, .9), rgba(5, 8, 7, .9) 60%, rgba(6, 78, 59, .5));
+  border-color: rgba(96, 165, 250, .25);
+}
+.contato .painel::before { content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 229, 122, .22), transparent 65%); top: -200px; left: 50%; transform: translateX(-50%); animation: respira 6s ease-in-out infinite; }
+@keyframes respira { 50% { transform: translateX(-50%) scale(1.25); opacity: .6; } }
+.contato .rotulo { justify-content: center; }
+.contato .lead { margin: 0 auto; }
+.contato .acoes { justify-content: center; }
+footer { text-align: center; color: var(--apagado); font-size: .82rem; padding: 0 0 40px; font-family: var(--mono); }
+footer b { color: var(--verde); font-weight: 500; }
+
+/* ---------- revelação ao rolar ---------- */
+.revela { opacity: 0; transform: translateY(34px); filter: blur(6px); transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease); transition-delay: var(--atraso, 0s); }
+.revela.visivel { opacity: 1; transform: none; filter: none; }
+
+/* ---------- responsivo ---------- */
+@media (max-width: 820px) {
+  .sobre-grade { grid-template-columns: 1fr; }
+  .links a { padding: 8px 10px; font-size: .82rem; }
+}
+@media (max-width: 560px) {
+  .logo { display: none; }
+  .links { margin: 0 auto; }
+  .links a { padding: 7px 9px; font-size: .78rem; }
+  .grade { grid-template-columns: 1fr; }
+  section { padding-top: 90px; }
+  .botao { padding: 13px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .revela { opacity: 1; transform: none; filter: none; }
+}
+</style>
+</head>
+<body>
+<div class="fundo" aria-hidden="true"><div class="bolha b1"></div><div class="bolha b2"></div><div class="bolha b3"></div></div>
+<div class="luz" aria-hidden="true"></div>
+<div class="barra-progresso" aria-hidden="true"></div>
+
+<nav>
+  <a class="logo" href="#inicio">&lt;wally<span>/</span>&gt;</a>
+  <div class="links">
+    <a href="#sobre">Sobre</a>
+    <a href="#stack">Stack</a>
+    <a href="#projetos">Projetos</a>
+    <a href="#contato">Contato</a>
+  </div>
+</nav>
+
+<main>
+  <!-- ============ início ============ -->
+  <section class="hero" id="inicio">
+    <div class="status revela"><i></i> Engenharia de Software · Itaú Unibanco</div>
+    <h1 class="revela" style="--atraso:.1s">Walyson<br><span class="grad">Santos Costa</span></h1>
+    <p class="digitando revela" style="--atraso:.2s"><span id="digitado"></span><span class="cursor"></span></p>
+    <p class="lead revela" style="--atraso:.3s">Construo sistemas em Python que aguentam o tranco: bancos de dados escritos do zero, APIs sob alta concorrência e pipelines de dados na nuvem, sempre com testes.</p>
+    <div class="acoes revela" style="--atraso:.4s">
+      <a class="botao primario" href="#projetos">Ver projetos
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="botao marinho" href="https://github.com/Wally-SC" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        GitHub</a>
+      <a class="botao" href="https://www.linkedin.com/in/walyson-santos" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+        LinkedIn</a>
+    </div>
+    <a class="rolar revela" style="--atraso:.6s" href="#sobre"><span class="mouse"></span> role para explorar</a>
+  </section>
+
+  <!-- ============ sobre ============ -->
+  <section id="sobre">
+    <div class="rotulo revela">01 · sobre</div>
+    <h2 class="revela">Código que resolve <em>problema de verdade</em></h2>
+    <div class="sobre-grade">
+      <div class="painel revela">
+        <p>Trabalho com <strong>automação e engenharia de dados</strong> no Itaú Unibanco (Previdência PJ): integrações com a <strong>Microsoft Graph API</strong>, pipelines ETL na <strong>AWS</strong> (Glue, Athena, S3) e consultas SQL sobre centenas de milhares de registros.</p>
+        <p>Fora do trabalho, estudo os fundamentos por trás das ferramentas que uso: escrevi um banco de dados LSM-tree do zero, um controle de estoque que não vende o que não existe mesmo com centenas de requisições simultâneas, e pipelines de dados em camadas.</p>
+        <p>Estudo <strong>Ciência e Tecnologia</strong> e <strong>Engenharia de Automação e Robótica</strong> na UFABC.</p>
+        <div class="linha-tempo">
+          <div class="marco"><span class="ponto"></span><div><small>2025 → hoje</small><h3>Automação e Dados · Itaú Unibanco</h3><p>Python, AWS, SQL, Power Platform e IA generativa.</p></div></div>
+          <div class="marco"><span class="ponto"></span><div><small>até 2027 · 2029</small><h3>BC&amp;T e Eng. de Automação e Robótica · UFABC</h3><p>Santo André, SP.</p></div></div>
+        </div>
+      </div>
+      <div class="numeros">
+        <div class="numero revela" style="--atraso:.05s"><b data-conta="12">0</b><span>projetos públicos no GitHub</span></div>
+        <div class="numero revela" style="--atraso:.15s"><b data-conta="328">0</b><span>testes nos dois maiores projetos</span></div>
+        <div class="numero revela" style="--atraso:.25s"><b data-conta="20" data-prefixo="~" data-sufixo="%">0</b><span>de redução de custo de nuvem em pipelines</span></div>
+        <div class="numero revela" style="--atraso:.35s"><b data-conta="8" data-prefixo="~" data-sufixo="h">0</b><span>por semana economizadas com automação e IA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ stack ============ -->
+  <section id="stack">
+    <div class="rotulo revela">02 · stack</div>
+    <h2 class="revela">Ferramentas do <em>dia a dia</em></h2>
+    <div class="stack">
+      <div class="painel revela"><h3><i>&lt;/&gt;</i> Engenharia de Software</h3><div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">pytest</span><span class="chip">SQL</span><span class="chip">Java</span><span class="chip">C# / .NET</span><span class="chip">Angular</span><span class="chip">Docker</span></div></div>
+      <div class="painel revela" style="--atraso:.1s"><h3><i>☁</i> Cloud e Dados</h3><div class="chips"><span class="chip">AWS Glue</span><span class="chip">Athena</span><span class="chip">S3</span><span class="chip">EC2</span><span class="chip">Serverless</span><span class="chip">Kafka</span><span class="chip">DuckDB</span><span class="chip">PostgreSQL</span></div></div>
+      <div class="painel revela" style="--atraso:.2s"><h3><i>⚙</i> Automação e Integração</h3><div class="chips"><span class="chip">Microsoft Graph</span><span class="chip">Power Apps</span><span class="chip">Power Automate</span><span class="chip">SharePoint</span><span class="chip">VBA</span></div></div>
+      <div class="painel revela" style="--atraso:.3s"><h3><i>◆</i> BI e IA</h3><div class="chips"><span class="chip">Power BI</span><span class="chip">QuickSight</span><span class="chip">Amazon Bedrock</span><span class="chip">Claude</span><span class="chip">Copilot</span><span class="chip">Git</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ projetos ============ -->
+  <section id="projetos">
+    <div class="rotulo revela">03 · projetos</div>
+    <h2 class="revela">O que eu <em>construí</em></h2>
+    <p class="lead revela">Código aberto e README próprio em cada um. Clique num card para abrir o repositório.</p>
+    <div class="filtros revela" role="tablist" aria-label="Filtrar projetos"></div>
+    <div class="grade" id="grade"></div>
+  </section>
+
+  <!-- ============ contato ============ -->
+  <section class="contato" id="contato">
+    <div class="painel revela">
+      <div class="rotulo">04 · contato</div>
+      <h2>Vamos <em>conversar?</em></h2>
+      <p class="lead">Quer falar sobre engenharia de software, dados ou automação? Me chama por qualquer um dos canais abaixo.</p>
+      <div class="acoes">
+        <a class="botao primario" href="mailto:walyson.santocosta@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 7 9-7"/></svg>
+          Enviar e-mail</a>
+        <a class="botao marinho" href="https://www.linkedin.com/in/walyson-santos" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+          LinkedIn</a>
+        <a class="botao" href="https://github.com/Wally-SC" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>feito à mão com <b>HTML, CSS e JS</b>, sem frameworks · © <span id="ano"></span> Walyson Santos Costa</footer>
+
+<script>
+(() => {
+  const PROJETOS = [
+    { nome: "lsm-kv-store", cat: "dados", destaque: true, selo: "146 testes", icone: "db",
+      desc: "Banco chave-valor LSM-tree escrito do zero: WAL, SSTables com índice esparso, filtro de Bloom, compactação size-tiered e recuperação de falhas.",
+      tec: ["Python", "Storage engine", "CI 3 SOs"] },
+    { nome: "controle-de-estoque", cat: "eng", destaque: true, selo: "182 testes", icone: "caixa",
+      desc: "Estoque com consistência forte sob alta concorrência: lock pessimista por produto no PostgreSQL, API em FastAPI e console de operação.",
+      tec: ["FastAPI", "PostgreSQL", "Docker"] },
+    { nome: "consulta-cnpj", cat: "apps", destaque: true, selo: "app web", icone: "busca",
+      desc: "Consulta de CNPJ em lote: envie planilha, CSV ou TXT e receba porte, ramo de atuação e situação cadastral.",
+      tec: ["Web", "OpenCNPJ", "CNPJá"] },
+    { nome: "pipeline-medallion-duckdb", cat: "dados", destaque: true, selo: "dados", icone: "camadas",
+      desc: "Pipeline de dados nas camadas bronze, silver e gold com DuckDB e SQL.",
+      tec: ["Python", "DuckDB", "SQL"] },
+    { nome: "pedidos-clean-architecture", cat: "eng", icone: "cubo",
+      desc: "Módulo de pedidos em Python organizado em Clean Architecture.",
+      tec: ["Python", "Clean Architecture", "pytest"] },
+    { nome: "job-queue-lib", cat: "eng", icone: "fila",
+      desc: "Fila de tarefas com threads, prioridades e retentativas com backoff.",
+      tec: ["Python", "threading", "pytest"] },
+    { nome: "data-quality-checks", cat: "dados", icone: "check",
+      desc: "Mini-framework de qualidade de dados configurável por JSON.",
+      tec: ["Python", "JSON", "pytest"] },
+    { nome: "api-biblioteca", cat: "apps", icone: "livro",
+      desc: "API REST de biblioteca, com livros e empréstimos.",
+      tec: ["FastAPI", "Pydantic", "Docker"] },
+    { nome: "gerenciador-financeiro", cat: "apps", icone: "moeda",
+      desc: "Controle financeiro pessoal em linha de comando com SQLite.",
+      tec: ["Python", "SQLite", "pytest"] },
+    { nome: "calculadora-cli", cat: "base", icone: "terminal",
+      desc: "Calculadora de expressões matemáticas em linha de comando, sem usar eval.",
+      tec: ["Python", "ast", "pytest"] },
+    { nome: "todo-cli", cat: "base", icone: "terminal",
+      desc: "Gerenciador de tarefas em linha de comando com persistência em JSON.",
+      tec: ["Python", "JSON", "pytest"] },
+    { nome: "conversor-unidades", cat: "base", icone: "terminal",
+      desc: "Conversor de unidades de comprimento, massa, volume e temperatura.",
+      tec: ["Python", "pytest"] },
+  ];
+  const FILTROS = [
+    ["todos", "Todos"], ["destaque", "Destaques"], ["dados", "Dados e storage"],
+    ["eng", "Engenharia de software"], ["apps", "Aplicações"], ["base", "Fundamentos"],
+  ];
+  const ICONES = {
+    db: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+    caixa: '<path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+    busca: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+    camadas: '<path d="m12 2 10 5-10 5L2 7l10-5Z"/><path d="m2 12 10 5 10-5M2 17l10 5 10-5"/>',
+    cubo: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    fila: '<path d="M4 6h16M4 12h10M4 18h6"/><path d="m17 15 3 3-3 3"/>',
+    check: '<path d="M9 12l2 2 4-4"/><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3Z"/>',
+    livro: '<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4V4ZM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7V4Z"/>',
+    moeda: '<circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v2M12 16v2"/>',
+    terminal: '<rect x="2" y="4" width="20" height="16" rx="3"/><path d="m6 9 3 3-3 3M12 15h5"/>',
+  };
+  const seta = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+  const url = (n) => `https://github.com/Wally-SC/${n}`;
+
+  // --- monta os cards e os filtros ---
+  const grade = document.getElementById("grade");
+  grade.innerHTML = PROJETOS.map((p, i) => `
+    <article class="projeto revela${p.destaque ? " destaque" : ""}" data-cat="${p.cat}" data-destaque="${!!p.destaque}" style="--atraso:${(i % 3) * 0.08}s">
+      <a class="cobre" href="${url(p.nome)}" target="_blank" rel="noopener" aria-label="Abrir ${p.nome} no GitHub"></a>
+      <header>
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONES[p.icone]}</svg></span>
+        ${p.selo ? `<span class="selo">${p.selo}</span>` : ""}
+      </header>
+      <h3>${p.nome}</h3>
+      <p>${p.desc}</p>
+      <div class="chips">${p.tec.map((t) => `<span class="chip">${t}</span>`).join("")}</div>
+      <a class="botao${p.destaque ? " primario" : ""}" href="${url(p.nome)}" target="_blank" rel="noopener">Ver código ${seta}</a>
+    </article>`).join("");
+
+  const conta = (f) => f === "todos" ? PROJETOS.length
+    : f === "destaque" ? PROJETOS.filter((p) => p.destaque).length
+    : PROJETOS.filter((p) => p.cat === f).length;
+  const caixaFiltros = document.querySelector(".filtros");
+  caixaFiltros.innerHTML = FILTROS.map(([id, nome], i) =>
+    `<button class="filtro${i === 0 ? " ativo" : ""}" data-filtro="${id}" role="tab" aria-selected="${i === 0}">${nome}<sup>${conta(id)}</sup></button>`).join("");
+  caixaFiltros.addEventListener("click", (e) => {
+    const botao = e.target.closest(".filtro");
+    if (!botao) return;
+    caixaFiltros.querySelectorAll(".filtro").forEach((b) => { b.classList.toggle("ativo", b === botao); b.setAttribute("aria-selected", b === botao); });
+    const f = botao.dataset.filtro;
+    let n = 0;
+    grade.querySelectorAll(".projeto").forEach((card) => {
+      const mostra = f === "todos" || (f === "destaque" ? card.dataset.destaque === "true" : card.dataset.cat === f);
+      card.classList.remove("surgindo");
+      card.classList.toggle("escondido", !mostra);
+      if (mostra) {
+        card.classList.add("visivel");
+        card.style.animationDelay = `${(n++) * 0.06}s`;
+        void card.offsetWidth; // reinicia a animação
+        card.classList.add("surgindo");
+      }
+    });
+  });
+
+  // --- brilho que segue o mouse nos cards ---
+  grade.addEventListener("pointermove", (e) => {
+    const card = e.target.closest(".projeto");
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    card.style.setProperty("--my", `${e.clientY - r.top}px`);
+  });
+
+  const semMovimento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // --- revelação ao rolar + contadores ---
+  const contar = (el) => {
+    const alvo = +el.dataset.conta, pre = el.dataset.prefixo || "", suf = el.dataset.sufixo || "";
+    if (semMovimento) { el.textContent = pre + alvo + suf; return; }
+    const t0 = performance.now(), dur = 1400;
+    const passo = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = pre + Math.round(alvo * e) + suf;
+      if (k < 1) requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  };
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add("visivel");
+      en.target.querySelectorAll("[data-conta]").forEach(contar);
+      observador.unobserve(en.target);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".revela").forEach((el) => observador.observe(el));
+
+  // --- texto digitando ---
+  const frases = ["Engenharia de Software", "Engenharia de Dados", "Python · AWS · SQL", "Automação e Integrações", "bancos de dados do zero"];
+  const alvo = document.getElementById("digitado");
+  if (semMovimento) { alvo.textContent = frases[0]; }
+  else {
+    let f = 0, c = 0, apagando = false;
+    const tique = () => {
+      const frase = frases[f];
+      c += apagando ? -1 : 1;
+      alvo.textContent = frase.slice(0, c);
+      let espera = apagando ? 35 : 70;
+      if (!apagando && c === frase.length) { apagando = true; espera = 1800; }
+      else if (apagando && c === 0) { apagando = false; f = (f + 1) % frases.length; espera = 350; }
+      setTimeout(tique, espera);
+    };
+    tique();
+  }
+
+  // --- navegação: sombra, progresso e link ativo ---
+  const nav = document.querySelector("nav"), barra = document.querySelector(".barra-progresso");
+  const links = [...document.querySelectorAll(".links a")];
+  const secoes = links.map((a) => document.querySelector(a.getAttribute("href")));
+  const aoRolar = () => {
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    nav.classList.toggle("rolou", y > 20);
+    barra.style.width = `${max > 0 ? (y / max) * 100 : 0}%`;
+    let atual = -1;
+    secoes.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.4) atual = i; });
+    links.forEach((a, i) => a.classList.toggle("ativo", i === atual));
+  };
+  addEventListener("scroll", aoRolar, { passive: true });
+  aoRolar();
+
+  // --- luz que segue o cursor ---
+  const luz = document.querySelector(".luz");
+  if (!semMovimento && matchMedia("(pointer: fine)").matches) {
+    addEventListener("pointermove", (e) => { luz.style.left = e.clientX + "px"; luz.style.top = e.clientY + "px"; }, { passive: true });
+  }
+
+  document.getElementById("ano").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
