@@ -290,7 +290,7 @@ footer b { color: var(--verde); font-weight: 500; }
         </div>
       </div>
       <div class="numeros">
-        <div class="numero revela" style="--atraso:.05s"><b data-conta="12">0</b><span>projetos públicos no GitHub</span></div>
+        <div class="numero revela" style="--atraso:.05s"><b data-conta="13">0</b><span>projetos públicos no GitHub</span></div>
         <div class="numero revela" style="--atraso:.15s"><b data-conta="328">0</b><span>testes nos dois maiores projetos</span></div>
         <div class="numero revela" style="--atraso:.25s"><b data-conta="20" data-prefixo="~" data-sufixo="%">0</b><span>de redução de custo de nuvem em pipelines</span></div>
         <div class="numero revela" style="--atraso:.35s"><b data-conta="8" data-prefixo="~" data-sufixo="h">0</b><span>por semana economizadas com automação e IA</span></div>
@@ -344,6 +344,9 @@ footer b { color: var(--verde); font-weight: 500; }
 <script>
 (() => {
   const PROJETOS = [
+    { nome: "servicedesk-ledger", cat: "dados", destaque: true, selo: "204 testes", icone: "grafico",
+      desc: "Painel de SLA e backlog (p50/p90/p95 em horas úteis), cobrança recorrente com franquia e excedente, e laboratório de índices com planos de execução lado a lado. Todo o cálculo analítico em SQL.",
+      tec: ["FastAPI", "PostgreSQL", "SQL", "Docker"] },
     { nome: "lsm-kv-store", cat: "dados", destaque: true, selo: "146 testes", icone: "db",
       desc: "Banco chave-valor LSM-tree escrito do zero: WAL, SSTables com índice esparso, filtro de Bloom, compactação size-tiered e recuperação de falhas.",
       tec: ["Python", "Storage engine", "CI 3 SOs"] },
@@ -395,6 +398,7 @@ footer b { color: var(--verde); font-weight: 500; }
     check: '<path d="M9 12l2 2 4-4"/><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3Z"/>',
     livro: '<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4V4ZM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7V4Z"/>',
     moeda: '<circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v2M12 16v2"/>',
+    grafico: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
     terminal: '<rect x="2" y="4" width="20" height="16" rx="3"/><path d="m6 9 3 3-3 3M12 15h5"/>',
   };
   const seta = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';

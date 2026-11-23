@@ -52,25 +52,26 @@ class Walyson:
 ### Em destaque
 
 <p align="center">
+<a href="https://github.com/Wally-SC/servicedesk-ledger"><img src="assets/card-servicedesk-ledger.svg" width="49%" alt="servicedesk-ledger"></a>
 <a href="https://github.com/Wally-SC/lsm-kv-store"><img src="assets/card-lsm-kv-store.svg" width="49%" alt="lsm-kv-store"></a>
 <a href="https://github.com/Wally-SC/controle-de-estoque"><img src="assets/card-controle-de-estoque.svg" width="49%" alt="controle-de-estoque"></a>
 <a href="https://github.com/Wally-SC/consulta-cnpj"><img src="assets/card-consulta-cnpj.svg" width="49%" alt="consulta-cnpj"></a>
-<a href="https://github.com/Wally-SC/pipeline-medallion-duckdb"><img src="assets/card-pipeline-medallion-duckdb.svg" width="49%" alt="pipeline-medallion-duckdb"></a>
 </p>
 
 ### Engenharia de software e dados
 
 <p align="center">
+<a href="https://github.com/Wally-SC/pipeline-medallion-duckdb"><img src="assets/card-pipeline-medallion-duckdb.svg" width="49%" alt="pipeline-medallion-duckdb"></a>
 <a href="https://github.com/Wally-SC/pedidos-clean-architecture"><img src="assets/card-pedidos-clean-architecture.svg" width="49%" alt="pedidos-clean-architecture"></a>
 <a href="https://github.com/Wally-SC/job-queue-lib"><img src="assets/card-job-queue-lib.svg" width="49%" alt="job-queue-lib"></a>
 <a href="https://github.com/Wally-SC/data-quality-checks"><img src="assets/card-data-quality-checks.svg" width="49%" alt="data-quality-checks"></a>
-<a href="https://github.com/Wally-SC/api-biblioteca"><img src="assets/card-api-biblioteca.svg" width="49%" alt="api-biblioteca"></a>
 </p>
 
 <details>
 <summary><b>Mais projetos: aplicações e fundamentos</b></summary>
 <br>
 <p align="center">
+<a href="https://github.com/Wally-SC/api-biblioteca"><img src="assets/card-api-biblioteca.svg" width="49%" alt="api-biblioteca"></a>
 <a href="https://github.com/Wally-SC/gerenciador-financeiro"><img src="assets/card-gerenciador-financeiro.svg" width="49%" alt="gerenciador-financeiro"></a>
 <a href="https://github.com/Wally-SC/calculadora-cli"><img src="assets/card-calculadora-cli.svg" width="49%" alt="calculadora-cli"></a>
 <a href="https://github.com/Wally-SC/todo-cli"><img src="assets/card-todo-cli.svg" width="49%" alt="todo-cli"></a>

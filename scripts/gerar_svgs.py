@@ -21,6 +21,8 @@ MONO = "'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace"
 
 PROJETOS = [
     # (nome, descrição, tecnologias, selo, destaque)
+    ("servicedesk-ledger", "Painel de SLA e backlog, cobrança recorrente e laboratório de índices, com todo o cálculo analítico em SQL.",
+     ["FastAPI", "PostgreSQL", "SQL"], "204 testes", True),
     ("lsm-kv-store", "Banco chave-valor LSM-tree escrito do zero: WAL, SSTables com índice esparso, filtro de Bloom e compactação.",
      ["Python", "Storage", "CI 3 SOs"], "146 testes", True),
     ("controle-de-estoque", "Estoque com consistência forte sob alta concorrência: lock pessimista por produto no PostgreSQL e API REST.",
